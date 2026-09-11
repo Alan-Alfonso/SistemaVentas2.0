@@ -1,0 +1,133 @@
+/* Menu.css */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #221f2e !important;
+  overflow: hidden;
+}
+
+.menu-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #221f2e !important; /* Fondo sólido que anula la transparencia de atrás */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+  z-index: 99999; /* Se asegura de estar al frente de todo */
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  width: 100%;
+  max-width: 900px; /* Ancho cómodo para las 4 tarjetas pero sin la caja flotante */
+}
+
+.card {
+  border-radius: 16px;
+  min-height: 180px;
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* Colores base de las tarjetas */
+.card-red { background: linear-gradient(135deg, #e57373); color: #fff; }
+.card-green { background: linear-gradient(135deg, #81c784); color: #1e1b24; }
+.card-blue { background: linear-gradient(135deg, #64b5f6); color: #1e1b24; }
+.card-yellow { background: linear-gradient(135deg, #dce775); color: #1e1b24; }
+
+/* Contenido cuando está cerrada */
+.card-front {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  transition: opacity 0.2s ease;
+}
+
+/* Contenedor de la partición total */
+.card-split-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  gap: 0; 
+}
+
+/* Las dos mitades de la tarjeta */
+.split-half {
+  flex: 1;
+  height: 100%;
+  background: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-weight: bold;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+}
+
+/* División total: la mitad izquierda arranca aplastada a la derecha y se abre a su lugar */
+.split-half.left {
+  animation: splitLeftTotal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* División total: la mitad derecha arranca aplastada a la izquierda y se abre a su lugar */
+.split-half.right {
+  animation: splitRightTotal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+@keyframes splitLeftTotal {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes splitRightTotal {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.split-half:hover {
+  background: rgba(0, 0, 0, 0.15);
+}

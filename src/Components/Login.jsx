@@ -1,19 +1,61 @@
 import { useState } from 'react';
 import './Login.css'; // 1. Importamos el archivo de estilos
+import axios from 'axios'; // 2. Importamos axios para hacer peticiones HTTP
+import { useNavigate } from 'react-router-dom';
+import {useEffect} from 'react';
+
+
+
 
 export function Login() {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
+  const navigate = useNavigate();
 
   function handleSubmit(e) {
+    
     e.preventDefault();
-    console.log("User:", user);
-    console.log("Pass:", pass);
+
+    try {
+      console.log("User:", user);
+      console.log("Pass:", pass);
+
+      navigate('/Menu'); 
+
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+    }
   }
 
-    function handleClose() {
+  function handleClose() {
     window.close(); // Cierra la ventana actual
   }
+
+
+useEffect(() => {
+    // 1. Declaramos la función segura
+    const getElectron = () => {
+      if (window.require) {
+        try {
+          const { ipcRenderer } = window.require('electron');
+          return ipcRenderer;
+        } catch (e) {
+          return null;
+        }
+      }
+      return null;
+    };
+
+    // 2. La ejecutamos y guardamos el resultado
+    const ipcRenderer = getElectron();
+
+    // 3. Si Electron está disponible, mandamos los eventos
+    if (ipcRenderer) {
+      ipcRenderer.send('cambiar-titulo', 'Burbujitas - Login');
+      ipcRenderer.send('cambiar-tamanio', { width: 500, height: 600 });
+    }
+  }, []);
+
 
   return (
     <div className="login-container">
@@ -24,12 +66,12 @@ export function Login() {
         </button>
 
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" 
+          src="src/Img/Burbuja.png" 
           alt="Logo de Login" 
           className="login-logo" 
         />
 
-        <h2 className="login-title">Sistema de Venta</h2>
+        <h2 className="login-title">Burbujitas</h2>
         
         <form onSubmit={handleSubmit} className="login-form">
           <input 
@@ -54,6 +96,7 @@ export function Login() {
         </form>
 
         <a href="#" className="login-link">Recuperar Contraseña</a>
+        <p className="login-footer">© Alan Alfonso</p>
       </div>
     </div>
   );
